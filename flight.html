@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Available Flights</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .flight-card {
+            background-color: #ffffff;
+            border: 1px solid rgba(0, 0, 0, 0.125);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .flight-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.15);
+        }
+        .btn-book {
+            background-color: #007bff;
+            border-color: #007bff;
+            color: #ffffff;
+            transition: background-color 0.2s ease-in-out;
+        }
+        .btn-book:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container my-4">
+    <h1 class="text-center mb-4">Available Flights</h1>
+    <div id="flightsCard" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4"></div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+const API_KEY = '8bb79057724211a8775424d9c4234321'; // Replace with your actual API key
+
+async function fetchFlights() {
+    try {
+        const response = await fetch(`http://api.aviationstack.com/v1/flights?access_key=${API_KEY}&limit=10`);
+        const data = await response.json();
+        return data.data || [];
+    } catch (error) {
+        console.error('Error fetching flight data:', error);
+        return [];
+    }
+}
+
+async function generateFlightsCard() {
+    const flightsCard = document.getElementById("flightsCard");
+
+    try {
+        const flights = await fetchFlights();
+
+        if (flights.length === 0) {
+            flightsCard.innerHTML = '<p class="text-center">No flights available at the moment.</p>';
+            return;
+        }
+
+        flights.forEach(flight => {
+            const flightCard = createFlightCard(flight);
+            flightsCard.appendChild(flightCard);
+        });
+
+    } catch (error) {
+        console.error('Error generating flights card:', error);
+    }
+}
+
+function createFlightCard(flight) {
+    const flightCard = document.createElement("div");
+    flightCard.classList.add("col", "flight-card");
+
+    flightCard.innerHTML = `
+        <div class="p-4">
+            <h5 class="card-title fs-5 fw-bold mb-3">${flight.airline.iata} ${flight.flight.number}</h5>
+            <p class="card-text fs-6 mb-2">Departure: ${flight.departure.airport}</p>
+            <p class="card-text fs-6 mb-2">Arrival: ${flight.arrival.airport}</p>
+            <p class="card-text fs-6 mb-2">Departure Time: ${flight.departure.estimated}</p>
+            <a href="flight-details.html?flight=${encodeURIComponent(JSON.stringify(flight))}" class="btn btn-primary btn-block btn-book mt-3">Book Now</a>
+        </div>
+    `;
+
+    return flightCard;
+}
+
+generateFlightsCard();
+</script>
+
+</body>
+</html>

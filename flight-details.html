@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Details</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container my-4">
+    <h1 class="text-center mb-4">Flight Details</h1>
+    <div id="flightDetails" class="p-4"></div>
+</div>
+
+<script>
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+const encodedFlightDetails = urlParams.get('flight');
+const flightDetails = JSON.parse(decodeURIComponent(encodedFlightDetails));
+
+const flightDetailsContainer = document.getElementById('flightDetails');
+
+if (flightDetails) {
+    flightDetailsContainer.innerHTML = `
+        <div class="container my-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">${flightDetails.airline.iata} ${flightDetails.flight.number}</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">Departure Airport: ${flightDetails.departure.airport}</p>
+                    <p class="card-text">Arrival Airport: ${flightDetails.arrival.airport}</p>
+                    <p class="card-text">Departure Time: ${flightDetails.departure.estimated}</p>
+                    <p class="card-text">Your booking details go here...</p>
+                </div>
+            </div>
+            <div class="text-center mt-3">
+                <button class="btn btn-primary" onclick="printFlightDetails()">Print</button>
+            </div>
+        </div>`;
+} else {
+    flightDetailsContainer.innerHTML = '<p class="text-center">Flight details not available.</p>';
+}
+
+function printFlightDetails() {
+    window.print();
+}
+</script>
+
+</body>
+</html>

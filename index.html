@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Airline Web App</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<style>
+    .icon-container {
+        color: blue;
+    }
+
+    .icon-container i {
+        padding-right: 10px;
+        /* Add space between icon and text */
+    }
+
+    .floating-label .form-control {
+        padding: 1rem 0.5rem 0.25rem;
+        border: none;
+        border-bottom: 1px solid #ccc;
+        border-radius: 0;
+    }
+
+    .floating-label .form-control:focus {
+        border-color: #007bff;
+    }
+
+    .floating-label .form-label {
+        position: absolute;
+        top: 1.5rem;
+        left: 0.5rem;
+        transition: all 0.2s ease-in-out;
+        pointer-events: none;
+    }
+
+    .floating-label .form-control:focus+.form-label,
+    .floating-label .form-control:not(:placeholder-shown)+.form-label {
+        top: 0.25rem;
+        font-size: 0.75rem;
+    }
+
+    .card {
+        border: none;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-inline {
+        display: inline-block;
+        margin: 0;
+        padding: 0.5rem 1rem;
+        background-color: transparent;
+        border: none;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+    .btn-inline.active {
+        background-color: #007BFF;
+        color: white;
+    }
+
+    .card-body {
+        padding: 1rem;
+    }
+
+    /* Adjust form styles */
+    .form-group label {
+        font-weight: bold;
+    }
+
+    .form-check label {
+        font-weight: normal;
+    }
+
+    .form-check-input:checked~.form-check-label {
+        color: #007BFF;
+    }
+    .card {
+      border: none;
+      box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    }
+
+    .btn-inline {
+      background-color: transparent;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .btn-inline.active {
+      background-color: #007BFF;
+      color: white;
+    }
+
+    .card-body {
+      padding: 1rem;
+    }
+
+    /* Adjust form styles */
+    .form-group label {
+      font-weight: bold;
+    }
+
+    .form-check label {
+      font-weight: normal;
+    }
+
+</style>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
+        <div class="container">
+            <!-- <a class="navbar-brand" href="#">Airline App</a> -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <a class="navbar-brand" href="#">
+                    <img src="https://cdn.travelwings.com/globalassets/images/travelwings-logo.svg" class="img-fluid"
+                        width="130">
+                </a>
+                <ul class="navbar-nav ml-auto ms-5">
+                    <li class="nav-item ms-3">
+                        <div class="h1 ms-5" style="font-size: 16px;">
+                            <a class="nav-link" href="/index.html"><i class="fas fa-home"></i>Home</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <div class="mx-3 h1 ms-5" style="font-size: 16px;">
+                            <a class="nav-link" href="flight.html"> <i class="fas fa-plane"></i> Flights
+                            </a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <div class="mx-3 h1 ms-5" style="font-size: 16px;">
+                            <a class="nav-link" href="services.html"> <i class="fas fa-plane-departure"></i> Airline Services</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <div class="mx-3 h1 ms-5" style="font-size: 16px;">
+                            <a class="nav-link" href="#"> <i class="fas fa-phone-alt"></i> Contact</a>
+                        </div>
+                    </li>
+                    <!-- <li class="nav-item">
+                        <div class="ms-5 h1" style="font-size: 18px;">
+                            <a class="nav-link" href="/signin.html">Sign In</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <div class="ms-5 " style="font-size: 18px;">
+                            <a class="nav-link" href="X.html">Get Started</a>
+                        </div>
+                    </li> -->
+                    <li class="nav-item">
+                        <div class="mx-3 h1 ms-5" style="font-size: 15px;">
+                            <a class="nav-link" href="Book.html"> <i class="fas fa-plane-arrival"></i>Book a Flight</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-user"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                            <li>
+                                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#userModal">
+                                    <button class="btn btn-primary" onclick="signUp()">SIGN UP</button>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#userModal">
+                                    <button class="btn btn-primary" onclick="signIn()">SIGN IN</button>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section id="carouselFunction">
+        <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="https://cdn.travelwings.com/assets/images/Search-Best-Flights-Across-the-Globe-1920x500_NGN.jpg"
+                        class="d-block w-100" alt="..." style="height: 57vh;">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5 class="h1">Davelogics Airline</h5>
+                        <p class="h4">We are here to offer best airline services.</p>
+                    </div>
+                    <!-- <div class="carousel-item">
+                      <img src="" class="d-block w-100" alt="..."style="height: 57vh;">
+                    </div>
+                    <div class="carousel-item">
+                      <img src="..." class="d-block w-100" alt="...">
+                    </div>
+                  </div>
+                </div> -->
+                    <div class="container mt-0" style="margin-top: -15vh !important;">
+                      <div class="row justify-content-center">
+                        <div class="col-md-8">
+                          <div class="card">
+                            <div class="card-header">
+                              <button class="btn btn-inline active" id="bookFlightBtn">Book a Flight</button>
+                              <button class="btn btn-inline" id="stopoverBtn">Stopover</button>
+                              <button class="btn btn-inline" id="manageBtn">Manage</button>
+                              <button class="btn btn-inline" id="checkInBtn">Check-In & Flight Status</button>
+                            </div>
+                            <div class="card-body">
+                              <div id="content">
+                                <!-- Dynamic content will be displayed here -->
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+    </section>
+    <!-- <div class="carousel-item">
+                    <img src="/Pictures/A-break-to-paradaise.png" class="d-block w-100" alt="..." style="height: 80vh;">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>Davelogics Airline</h5>
+                        <p>We are here to offer best airline services.</p>
+                      </div>
+                  </div> -->
+    <!-- <div class="carousel-item">
+                    <img src="https://img2.wallspic.com/crops/4/0/0/5/25004/25004-airline-airliner-aerospace_engineering-aircraft_engine-airplane-5604x3731.jpg" class="d-block w-100" alt="..." style="height: 80vh;">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>Davelogics Airline</h5>
+                        <p>We are here to offer best airline services.</p>
+                      </div>
+                  </div> -->
+
+    </div>
+    </div>
+    </div>
+    </div>
+    </section>
+    <section class="container mt-5">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card py-4 mt-1 ">
+                    <img src="/Pictures/Destination-Landing-page-1.png" class="card-img-top img-fluid w-100 h-3"
+                        alt="Sample Image">
+                </div>
+            </div>
+            <div class="col-md-6 mt-0">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title h2">Great Offers & Amazing Deals</h5>
+                        <p class="card-text">Get personalised recommendations and private deals.</p>
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" placeholder="Enter Email Address"
+                                aria-label="Enter Email Address" aria-describedby="button-addon2">
+                            <button class="btn btn-danger" type="button" id="button-addon2">SUBSCRIBE</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="flight-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 ">
+                    <h2 class="h4">Compare and Book Cheap Flights from 1000+ Airlines</h2>
+                    <p class="h6">Get <strong>NGN 3000</strong> OFF on your flight booking with coupon code
+                        <strong>“TWAIR”</strong>. Hurry up!
+                    </p>
+                    <p class="h6">Travelwings is here to make your travel dreams a reality.</p>
+                    <p class="h6">Fly fuss-free with amazing offers on affordable flight bookings. Embark on a
+                        journey to explore the world's wonders.</p>
+                </div>
+            </div>
+        </div>
+    </section><br>
+
+    <section class="icon-list mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10">
+                    <h2 class="h4">Why Choose Us?</h2>
+                    <div class="icon-container">
+                        <i class="fas fa-check-circle"></i><span style="color: black;">One-stop destination for
+                            domestic and international flights</span><br><br>
+                        <i class="fas fa-check-circle"></i><span style="color: black;">Easy availability of tickets
+                            at competitive prices</span><br><br>
+                        <i class="fas fa-check-circle"></i> <span style="color: black;">Flawless 24*7 customer
+                            support </span><br><br>
+                        <i class="fas fa-check-circle"></i><span style="color: black;"> Secure bookings and Easy
+                            cancellation & refund </span><br><br>
+                        <i class="fas fa-check-circle"></i><span style="color: black;"> Get exclusive offers on
+                            special destinations regularly </span><br><br>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="flight-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 ">
+                    <h2 class="h4">Book Cheap Flights from Nigeria</h2>
+                    <p class="h6 .fs-6 text">We bring to the wanderlust of Nigeria a venue to <strong>“book cheap
+                            flights ” </strong>when one makes a <strong>flight booking online</strong>. Our
+                        <strong>online flight booking</strong> domain caters to the needs of <strong>booking flights
+                        </strong>and traces down the <strong>cheapest flights</strong> in the market to
+                        international destinations. We have everything from <strong>cheap flight tickets</strong> to
+                        budget-friendly <strong>airplane tickets. Flight booking </strong>to destinations across the
+                        world had never been this easier.
+                    </p>
+                    <p class="h6">So, make the most of your vacation with Travelwings and experience the
+                        extraordinary with online flight booking now.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer class="bg-dark text-light mt-5 py-5">
+        <div class="text-center">
+            <p>&copy; Copyright 2023 Travelwings. All Rights Reserved.</p>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+
+
+        function toggleStyling(radio) {
+            const labels = document.querySelectorAll('.form-check-label');
+            const radios = document.querySelectorAll('.form-check-input');
+
+            radios.forEach(r => {
+                r.style.backgroundColor = '';
+                r.style.borderRadius = '0';
+            });
+
+            labels.forEach(label => {
+                if (label.getAttribute('for') === radio.id) {
+                    label.style.backgroundColor = '#ECECEC';
+                    label.style.border = '10px';
+                    label.style.borderRadius = '10px';
+                    radio.style.backgroundColor = 'blue';
+                    radio.style.borderRadius = '10px';
+                } else {
+                    label.style.backgroundColor = '';
+                    label.style.borderRadius = '';
+                }
+            });
+        }
+        document.addEventListener('change', function (event) {
+            if (event.target.type === 'radio' && event.target.name === 'options') {
+                const dropdownButton = document.querySelector('.dropdown-toggle');
+                dropdownButton.textContent = event.target.parentElement.textContent.trim();
+            }
+        });
+
+        signUp = () => {
+            window.location.href = "signUp.html"
+        }
+        signIn = () => {
+            window.location.href = "signin.html"
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+    const buttons = document.querySelectorAll('.btn');
+
+    buttons.forEach(button => {
+      button.addEventListener('click', () => {
+        buttons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+        changeContent(button.id);
+      });
+    });
+
+    function populateStatesSelect(selectId) {
+      const statesSelect = document.getElementById(selectId);
+      const states = [
+        { name: 'Lagos', airport: 'Murtala Muhammed International Airport' },
+        { name: 'Abuja', airport: 'Nnamdi Azikiwe International Airport' },
+        // Add more states and airports as needed
+      ];
+
+      statesSelect.innerHTML = states.map(state => `
+        <option value="${state.name}">${state.name} - ${state.airport}</option>
+      `).join('');
+    }
+
+    function increaseArray(array, length) {
+      while (array.length < length) {
+        array.push(null);
+      }
+      return array;
+    }
+
+    function changeContent(buttonId) {
+      const contentDiv = document.getElementById('content');
+      contentDiv.innerHTML = '';
+
+      if (buttonId === 'bookFlightBtn') {
+        contentDiv.innerHTML = `
+          <h4>Book a Flight</h4>
+          <form id="bookFlightForm" class="needs-validation" novalidate>
+            <div class="row">
+              <div class="col-md-6 form-group">
+                <label for="state">Departure State:</label>
+                <select id="state" class="form-control" required></select>
+                <div class="invalid-feedback">
+                  Please select a valid departure state.
+                </div>
+              </div>
+              <div class="col-md-6 form-group">
+                <label for="destination">Destination City:</label>
+                <input type="text" id="destination" class="form-control" required>
+                <div class="invalid-feedback">
+                  Please enter a valid destination city.
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 form-group">
+                <label for="departureDate">Departure Date:</label>
+                <input type="date" id="departureDate" class="form-control" required>
+                <div class="invalid-feedback">
+                  Please select a valid departure date.
+                </div>
+              </div>
+              <div class="col-md-6 form-group">
+                <label for="returnDate">Return Date:</label>
+                <input type="date" id="returnDate" class="form-control" required>
+                <div class="invalid-feedback">
+                  Please select a valid return date.
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 form-group">
+                <label for="adultPassengers">Adult Passengers:</label>
+                <div class="input-group">
+                  <input type="number" id="adultPassengers" class="form-control" required min="1">
+                  <div class="input-group-append">
+                    <button type="button" class="btn btn-outline-primary" id="decreaseAdults">-</button>
+                    <button type="button" class="btn btn-outline-primary" id="increaseAdults">+</button>
+                  </div>
+                </div>
+                <div class="invalid-feedback">
+                  Please specify the number of adult passengers.
+                </div>
+              </div>
+              <div class="col-md-6 form-group">
+                <label for="childPassengers">Child Passengers:</label>
+                <div class="input-group">
+                  <input type="number" id="childPassengers" class="form-control" required min="0">
+                  <div class="input-group-append">
+                    <button type="button" class="btn btn-outline-primary" id="decreaseChildren">-</button>
+                    <button type="button" class="btn btn-outline-primary" id="increaseChildren">+</button>
+                  </div>
+                </div>
+                <div class="invalid-feedback">
+                  Please specify the number of child passengers.
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="travelClass">Travel Class:</label>
+              <select id="travelClass" class="form-control" required>
+                <option value="economy">Economy</option>
+                <option value="business">Business</option>
+                <option value="firstClass">First Class</option>
+              </select>
+              <div class="invalid-feedback">
+                Please select a travel class.
+              </div>
+              <div class="form-group">
+        <label for="currency">Currency:</label>
+        <select class="form-control" id="currency" name="currency">
+          <option value="NGN">Nigerian Naira (NGN)</option>
+          <option value="USD">US Dollar (USD)</option>
+          <option value="EUR">Euro (EUR)</option>
+          <!-- Add more options for other currencies -->
+        </select>
+      </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block w-100">Submit</button>
+          </form>
+        `;
+
+        populateStatesSelect('state');
+        const bookFlightForm = document.getElementById('bookFlightForm');
+
+        const decreaseAdultsBtn = document.getElementById('decreaseAdults');
+        const increaseAdultsBtn = document.getElementById('increaseAdults');
+        const adultPassengersInput = document.getElementById('adultPassengers');
+        const decreaseChildrenBtn = document.getElementById('decreaseChildren');
+        const increaseChildrenBtn = document.getElementById('increaseChildren');
+        const childPassengersInput = document.getElementById('childPassengers');
+
+        decreaseAdultsBtn.addEventListener('click', () => {
+          if (adultPassengersInput.value > 1) {
+            adultPassengersInput.value--;
+          }
+        });
+
+        increaseAdultsBtn.addEventListener('click', () => {
+          adultPassengersInput.value++;
+        });
+
+        decreaseChildrenBtn.addEventListener('click', () => {
+          if (childPassengersInput.value > 0) {
+            childPassengersInput.value--;
+          }
+        });
+
+        increaseChildrenBtn.addEventListener('click', () => {
+          childPassengersInput.value++;
+        });
+
+        bookFlightForm.addEventListener('submit', function(event) {
+          if (!bookFlightForm.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+          bookFlightForm.classList.add('was-validated');
+        });
+
+      } else if (buttonId === 'stopoverBtn') {
+        contentDiv.innerHTML = `
+          <h4>Stopover</h4>
+          <form id="stopoverForm" class="needs-validation" novalidate>
+            <div class="row">
+              <div class="col-md-6 form-group">
+                <label for="origin">Origin City:</label>
+                <input type="text" id="origin" class="form-control" required>
+                <div class="invalid-feedback">
+                  Please enter a valid origin city.
+                </div>
+              </div>
+              <div class="col-md-6 form-group">
+                <label for="layover">Layover City:</label>
+                <input type="text" id="layover" class="form-control" required>
+                <div class="invalid-feedback">
+                  Please enter a valid layover city.
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 form-group">
+                <label for="layoverDuration">Layover Duration (hours):</label>
+                <input type="number" id="layoverDuration" class="form-control" required>
+                <div class="invalid-feedback">
+                  Please enter a valid layover duration.
+                </div>
+              </div>
+              <div class="col-md-6 form-group">
+                <label for="layoverDate">Layover Date:</label>
+                <input type="date" id="layoverDate" class="form-control" required>
+                <div class="invalid-feedback">
+                  Please select a valid layover date.
+                </div>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Submit</button>
+          </form>
+        `;
+
+        const stopoverForm = document.getElementById('stopoverForm');
+        stopoverForm.addEventListener('submit', function(event) {
+          if (!stopoverForm.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+          stopoverForm.classList.add('was-validated');
+        });
+
+      } else if (buttonId === 'manageBtn') {
+        contentDiv.innerHTML = `
+          <h4>Manage</h4>
+          <form id="manageForm" class="needs-validation" novalidate>
+            <div class="form-group">
+              <label for="bookingCode">Booking Code:</label>
+              <input type="text" id="bookingCode" class="form-control" required>
+              <div class="invalid-feedback">
+                Please enter a valid booking code.
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="lastName">Last Name:</label>
+              <input type="text" id="lastName" class="form-control" required>
+              <div class="invalid-feedback">
+                Please enter a valid last name.
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="email">Email:</label>
+              <input type="email" id="email" class="form-control" required>
+              <div class="invalid-feedback">
+                Please enter a valid email address.
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="phone">Phone Number:</label>
+              <input type="tel" id="phone" class="form-control" required>
+              <div class="invalid-feedback">
+                Please enter a valid phone number.
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Submit</button>
+          </form>
+        `;
+
+        const manageForm = document.getElementById('manageForm');
+        manageForm.addEventListener('submit', function(event) {
+          if (!manageForm.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+          manageForm.classList.add('was-validated');
+        });
+
+      } else if (buttonId === 'checkInBtn') {
+        contentDiv.innerHTML = `
+          <h4>Check-In & Flight Status</h4>
+          <form id="checkInForm" class="needs-validation" novalidate>
+            <div class="form-group">
+              <label for="bookingReference">Booking Reference:</label>
+              <input type="text" id="bookingReference" class="form-control" required>
+              <div class="invalid-feedback">
+                Please enter a valid booking reference.
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Submit</button>
+          </form>
+        `;
+
+        const checkInForm = document.getElementById('checkInForm');
+        checkInForm.addEventListener('submit', function(event) {
+          if (!checkInForm.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+          checkInForm.classList.add('was-validated');
+        });
+      }
+    }
+  });
+    </script>
+
+</body>
+
+</html>

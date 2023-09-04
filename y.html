@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nigeria Airline Card</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    /* Custom styles for the card */
+    .card {
+      border: none;
+      box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    }
+
+    .btn-inline {
+      background-color: transparent;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .btn-inline.active {
+      background-color: #007BFF;
+      color: white;
+    }
+
+    .card-body {
+      padding: 1rem;
+    }
+
+    /* Adjust form styles */
+    .form-group label {
+      font-weight: bold;
+    }
+
+    .form-check label {
+      font-weight: normal;
+    }
+
+    /* Add more custom styles as needed */
+    .form-row {
+      margin-bottom: 10px;
+    }
+
+    .form-inline {
+      display: inline-block;
+      width: 100%;
+    }
+
+    .inline-input-group {
+      display: inline-block;
+      margin-right: 10px;
+      width: calc(50% - 10px);
+    }
+
+    .btn-inline-group {
+      display: inline-block;
+      margin-top: 5px;
+    }
+
+    .btn-inline-group .btn {
+      margin-right: 5px;
+    }
+
+    .btn-inline-group .btn:last-child {
+      margin-right: 0;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header">
+          <button class="btn btn-inline active" id="bookFlightBtn">Book a Flight</button>
+          <button class="btn btn-inline" id="stopoverBtn">Stopover</button>
+          <button class="btn btn-inline" id="manageBtn">Manage</button>
+          <button class="btn btn-inline" id="checkInBtn">Check-In & Flight Status</button>
+        </div>
+        <div class="card-body">
+          <div id="content">
+            <!-- Dynamic content will be displayed here -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const buttons = document.querySelectorAll('.btn');
+
+    buttons.forEach(button => {
+      button.addEventListener('click', () => {
+        buttons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+        changeContent(button.id);
+      });
+    });
+
+    function populateStatesSelect(selectId) {
+      const statesSelect = document.getElementById(selectId);
+      const states = [
+        { name: 'Lagos', airport: 'Murtala Muhammed International Airport' },
+        { name: 'Abuja', airport: 'Nnamdi Azikiwe International Airport' },
+        // Add more states and airports as needed
+      ];
+
+      statesSelect.innerHTML = states.map(state => `
+        <option value="${state.name}">${state.name} - ${state.airport}</option>
+      `).join('');
+    }
+
+    function increaseArray(array, length) {
+      while (array.length < length) {
+        array.push(null);
+      }
+      return array;
+    }
+
+    function changeContent(buttonId) {
+      const contentDiv = document.getElementById('content');
+      contentDiv.innerHTML = '';
+
+      if (buttonId === 'bookFlightBtn') {
+        contentDiv.innerHTML = `
+          <h4>Book a Flight</h4>
+          <form id="bookFlightForm" class="needs-validation" novalidate>
+            <div class="form-row">
+              <div class="form-group inline-input-group">
+                <label for="state">Departure State:</label>
+                <select id="state" class="form-control" required></select>
+                <div class="invalid-feedback">
+                  Please select a valid departure state.
+                </div>
+              </div>
+              <div class="form-group inline-input-group">
+                <label for="destination">Destination City:</label>
+                <input type="text" id="destination" class="form-control" required>
+                <div class="invalid-feedback">
+                  Please enter a valid destination city.
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group inline-input-group">
+                <label for="departureDate">Departure Date:</label>
+                <input type="date" id="departureDate" class="form-control" required>
+                <div class="invalid-feedback">
+                  Please select a valid departure date.
+                </div>
+              </div>
+              <div class="form-group inline-input-group">
+                <label for="returnDate">Return Date:</label>
+                <input type="date" id="returnDate" class="form-control" required>
+                <div class="invalid-feedback">
+                  Please select a valid return date.
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group inline-input-group">
+                <label for="adultPassengers">Adult Passengers:</label>
+                <div class="input-group">
+                  <input type="number" id="adultPassengers" class="form-control" required min="1">
+                  <div class="input-group-append btn-inline-group">
+                    <button type="button" class="btn btn-outline-primary" id="decreaseAdults">-</button>
+                    <button type="button" class="btn btn-outline-primary" id="increaseAdults">+</button>
+                  </div>
+                </div>
+                <div class="invalid-feedback">
+                  Please specify the number of adult passengers.
+                </div>
+              </div>
+              <div class="form-group inline-input-group">
+                <label for="childPassengers">Child Passengers:</label>
+                <div class="input-group">
+                  <input type="number" id="childPassengers" class="form-control" required min="0">
+                  <div class="input-group-append btn-inline-group">
+                    <button type="button" class="btn btn-outline-primary" id="decreaseChildren">-</button>
+                    <button type="button" class="btn btn-outline-primary" id="increaseChildren">+</button>
+                  </div>
+                </div>
+                <div class="invalid-feedback">
+                  Please specify the number of child passengers.
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group inline-input-group">
+                <label for="travelClass">Travel Class:</label>
+                <select id="travelClass" class="form-control" required>
+                  <option value="economy">Economy</option>
+                  <option value="business">Business</option>
+                  <option value="firstClass">First Class</option>
+                </select>
+                <div class="invalid-feedback">
+                  Please select a travel class.
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group inline-input-group">
+                <label for="additionalServices">Additional Services:</label>
+                <textarea id="additionalServices" class="form-control" rows=""></textarea>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-block">Submit</button>
+              </div>
+            </div>
+          </form>
+        `;
+
+        populateStatesSelect('state');
+        const bookFlightForm = document.getElementById('bookFlightForm');
+
+        const decreaseAdultsBtn = document.getElementById('decreaseAdults');
+        const increaseAdultsBtn = document.getElementById('increaseAdults');
+        const adultPassengersInput = document.getElementById('adultPassengers');
+        const decreaseChildrenBtn = document.getElementById('decreaseChildren');
+        const increaseChildrenBtn = document.getElementById('increaseChildren');
+        const childPassengersInput = document.getElementById('childPassengers');
+
+        decreaseAdultsBtn.addEventListener('click', () => {
+          if (adultPassengersInput.value > 1) {
+            adultPassengersInput.value--;
+          }
+        });
+
+        increaseAdultsBtn.addEventListener('click', () => {
+          adultPassengersInput.value++;
+        });
+
+        decreaseChildrenBtn.addEventListener('click', () => {
+          if (childPassengersInput.value > 0) {
+            childPassengersInput.value--;
+          }
+        });
+
+        increaseChildrenBtn.addEventListener('click', () => {
+          childPassengersInput.value++;
+        });
+
+        bookFlightForm.addEventListener('submit', function(event) {
+          if (!bookFlightForm.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+          bookFlightForm.classList.add('was-validated');
+        });
+
+      } else if (buttonId === 'stopoverBtn') {
+        contentDiv.innerHTML = `
+          <h4>Stopover</h4>
+          <form id="stopoverForm" class="needs-validation" novalidate>
+            <div class="form-row">
+              <div class="form-group inline-input-group">
+                <label for="origin">Origin City:</label>
+                <input type="text" id="origin" class="form-control" required>
+                <div class="invalid-feedback">
+                  Please enter a valid origin city.
+                </div>
+              </div>
+              <div class="form-group inline-input-group">
+                <label for="layover">Layover City:</label>
+                <input type="text" id="layover" class="form-control" required>
+                <div class="invalid-feedback">
+                  Please enter a valid layover city.
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group inline-input-group">
+                <label for="layoverDuration">Layover Duration (hours):</label>
+                <input type="number" id="layoverDuration" class="form-control" required>
+                <div class="invalid-feedback">
+                  Please enter a valid layover duration.
+                </div>
+              </div>
+              <div class="form-group inline-input-group">
+                <label for="layoverDate">Layover Date:</label>
+                <input type="date" id="layoverDate" class="form-control" required>
+                <div class="invalid-feedback">
+                  Please select a valid layover date.
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-block">Submit</button>
+              </div>
+            </div>
+          </form>
+        `;
+
+        const stopoverForm = document.getElementById('stopoverForm');
+        stopoverForm.addEventListener('submit', function(event) {
+          if (!stopoverForm.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+          stopoverForm.classList.add('was-validated');
+        });
+
+      } else if (buttonId === 'manageBtn') {
+        contentDiv.innerHTML = `
+          <h4>Manage</h4>
+          <form id="manageForm" class="needs-validation" novalidate>
+            <div class="form-row">
+              <div class="form-group inline-input-group">
+                <label for="bookingCode">Booking Code:</label>
+                <input type="text" id="bookingCode" class="form-control" required>
+                <div class="invalid-feedback">
+                  Please enter a valid booking code.
+                </div>
+              </div>
+              <div class="form-group inline-input-group">
+                <label for="lastName">Last Name:</label>
+                <input type="text" id="lastName" class="form-control" required>
+                <div class="invalid-feedback">
+                  Please enter a valid last name.
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group inline-input-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" class="form-control" required>
+                <div class="invalid-feedback">
+                  Please enter a valid email address.
+                </div>
+              </div>
+              <div class="form-group inline-input-group">
+                <label for="phone">Phone Number:</label>
+                <input type="tel" id="phone" class="form-control" required>
+                <div class="invalid-feedback">
+                  Please enter a valid phone number.
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-block">Submit</button>
+              </div>
+            </div>
+          </form>
+        `;
+
+        const manageForm = document.getElementById('manageForm');
+        manageForm.addEventListener('submit', function(event) {
+          if (!manageForm.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+          manageForm.classList.add('was-validated');
+        });
+
+      } else if (buttonId === 'checkInBtn') {
+        contentDiv.innerHTML = `
+          <h4>Check-In & Flight Status</h4>
+          <form id="checkInForm" class="needs-validation" novalidate>
+            <div class="form-row">
+              <div class="form-group inline-input-group">
+                <label for="bookingReference">Booking Reference:</label>
+                <input type="text" id="bookingReference" class="form-control" required>
+                <div class="invalid-feedback">
+                  Please enter a valid booking reference.
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-block">Submit</button>
+              </div>
+            </div>
+          </form>
+        `;
+
+        const checkInForm = document.getElementById('checkInForm');
+        checkInForm.addEventListener('submit', function(event) {
+          if (!checkInForm.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+          checkInForm.classList.add('was-validated');
+        });
+      }
+    }
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Airline App</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="#">Airline App</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false">
+              <i class="fas fa-user"></i> {{ userButtonLabel }}
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+              <li>
+                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#userModal">
+                  {{ signInButtonLabel }}
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#userModal">
+                  {{ signUpButtonLabel }}
+                </a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- User Modal -->
+  <div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="userModalLabel">{{ userProfileTitle }}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active" id="pills-sign-in-tab" data-bs-toggle="pill" data-bs-target="#pills-sign-in"
+                type="button" role="tab" aria-controls="pills-sign-in" aria-selected="true">{{ signInButtonLabel }}</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="pills-sign-up-tab" data-bs-toggle="pill" data-bs-target="#pills-sign-up"
+                type="button" role="tab" aria-controls="pills-sign-up" aria-selected="false">{{ signUpButtonLabel }}</button>
+            </li>
+          </ul>
+          <div class="tab-content" id="pills-tabContent">
+            <div class="tab-pane fade show active" id="pills-sign-in" role="tabpanel" aria-labelledby="pills-sign-in-tab">
+              <form>
+                <div class="mb-3">
+                  <label for="signInEmail" class="form-label">{{ signInEmailLabel }}</label>
+                  <input type="email" class="form-control" id="signInEmail" required>
+                </div>
+                <div class="mb-3">
+                  <label for="signInPassword" class="form-label">{{ signInPasswordLabel }}</label>
+                  <input type="password" class="form-control" id="signInPassword" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">{{ signInButtonLabel }}</button>
+              </form>
+            </div>
+            <div class="tab-pane fade" id="pills-sign-up" role="tabpanel" aria-labelledby="pills-sign-up-tab">
+              <form>
+                <div class="mb-3">
+                  <label for="signUpName" class="form-label">{{ signUpNameLabel }}</label>
+                  <input type="text" class="form-control" id="signUpName" required>
+                </div>
+                <div class="mb-3">
+                  <label for="signUpEmail" class="form-label">{{ signUpEmailLabel }}</label>
+                  <input type="email" class="form-control" id="signUpEmail" required>
+                </div>
+                <div class="mb-3">
+                  <label for="signUpPassword" class="form-label">{{ signUpPasswordLabel }}</label>
+                  <input type="password" class="form-control" id="signUpPassword" required>
+                </div>
+                <button type="submit" class="btn btn-success btn-block">{{ signUpButtonLabel }}</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>document.addEventListener('DOMContentLoaded', function () {
+    const signInButton = document.getElementById('sign-in-button');
+    const signUpButton = document.getElementById('sign-up-button');
+    const signedInContent = document.getElementById('signed-in-content');
+    const signInContent = document.getElementById('sign-in-content');
+    const signUpContent = document.getElementById('sign-up-content');
+    const userNameSpan = document.getElementById('user-name');
+  
+    function showSignedInContent(userName) {
+      userNameSpan.textContent = userName;
+      signedInContent.style.display = 'block';
+      signInContent.style.display = 'none';
+      signUpContent.style.display = 'none';
+    }
+  
+    function showSignInContent() {
+      signedInContent.style.display = 'none';
+      signInContent.style.display = 'block';
+      signUpContent.style.display = 'none';
+    }
+  
+    function showSignUpContent() {
+      signedInContent.style.display = 'none';
+      signInContent.style.display = 'none';
+      signUpContent.style.display = 'block';
+    }
+  
+    signInButton.addEventListener('click', function () {
+      // Replace this example with your actual sign-in logic
+      const userName = 'John Doe'; // Get the user's name after successful sign-in
+      showSignedInContent(userName);
+    });
+  
+    signUpButton.addEventListener('click', function () {
+      showSignUpContent();
+    });
+  });
+  </script>
+</body>
+</html>

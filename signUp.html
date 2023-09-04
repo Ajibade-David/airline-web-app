@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Airline Sign Up Form</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 30px;
+            background-color: #ffffff;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 0.9rem;
+        }
+
+        .password-toggle {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Create an Account</h1>
+        <form id="signup-form">
+            <div class="form-group">
+                <label for="full-name">Full Name</label>
+                <input type="text" id="full-name" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label for="gender">Gender</label>
+                <select id="gender" class="form-control" required>
+                    <option value="" disabled selected>Select Gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="dob">Date of Birth</label>
+                <input type="date" id="dob" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label for="contact-number">Contact Number</label>
+                <input type="tel" id="contact-number" class="form-control" pattern="[0-9]{11}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <div class="input-group">
+                    <input type="password" id="password" class="form-control" minlength="8" required>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary password-toggle" type="button" id="toggle-password">Show</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="confirm-password">Confirm Password</label>
+                <input type="password" id="confirm-password" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label for="country">Country</label>
+                <select id="country" class="form-control" required>
+                    <option value="" disabled selected>Select Country</option>
+                    <option value="us">United States</option>
+                    <option value="ca">Canada</option>
+                    <!-- Add more country options here -->
+                </select>
+            </div>
+
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="subscribe-newsletter">
+                <label class="form-check-label" for="subscribe-newsletter">
+                    Subscribe to Newsletter
+                </label>
+            </div>
+
+            <div class="form-check mt-2">
+                <input class="form-check-input" type="checkbox" id="accept-terms" required>
+                <label class="form-check-label" for="accept-terms">
+                    I agree to the <a href="#">Terms and Conditions</a>
+                </label>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block mt-4" id="signUpButton">Sign Up</button>
+            <div class="error-message mt-3" id="error-message"></div>
+        </form>
+    </div>
+
+    <script>
+        const form = document.getElementById('signup-form');
+        const errorMessage = document.getElementById('error-message');
+        const passwordInput = document.getElementById('password');
+        const togglePasswordBtn = document.getElementById('toggle-password');
+
+        togglePasswordBtn.addEventListener('click', function () {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            togglePasswordBtn.textContent = type === 'password' ? 'Show' : 'Hide';
+        });
+           
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+            if (validateForm()) {
+                alert('Sign-up successful!');
+                // Here, you can add code to send form data to your server
+            }
+        });
+
+        function validateForm() {
+          signUpButton.innerHTML = "Loading..."
+          window.location.href  = "signin.html"
+            errorMessage.innerHTML = '';
+            let isValid = true;
+
+            const fullName = document.getElementById('full-name').value;
+            if (fullName.trim() === '') {
+                showErrorMessage('Please enter your full name.');
+                isValid = false;
+            }
+
+            const gender = document.getElementById('gender').value;
+            if (gender === '') {
+                showErrorMessage('Please select a gender.');
+                isValid = false;
+            }
+
+            const dob = document.getElementById('dob').value;
+            if (!isValidDate(dob)) {
+                showErrorMessage('Please enter a valid date of birth.');
+                isValid = false;
+            }
+
+            const contactNumber = document.getElementById('contact-number').value;
+            if (!isValidContactNumber(contactNumber)) {
+                showErrorMessage('Please enter a valid contact number (10 digits).');
+                isValid = false;
+            }
+
+            const email = document.getElementById('email').value;
+            if (!isValidEmail(email)) {
+                showErrorMessage('Please enter a valid email address.');
+                isValid = false;
+            }
+
+            const password = document.getElementById('password').value;
+            if (password.length < 8) {
+                showErrorMessage('Password must be at least 8 characters long.');
+                isValid = false;
+            }
+
+            const confirmPassword = document.getElementById('confirm-password').value;
+            if (password !== confirmPassword) {
+                showErrorMessage('Passwords do not match.');
+                isValid = false;
+            }
+
+            const country = document.getElementById('country').value;
+            if (country === '') {
+                showErrorMessage('Please select a country.');
+                isValid = false;
+            }
+
+            if (!document.getElementById('accept-terms').checked) {
+                showErrorMessage('Please accept the terms and conditions.');
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
+        function isValidDate(dateString) {
+            const pattern = /^(\d{4})-(\d{2})-(\d{2})$/;
+            if (!pattern.test(dateString)) return false;
+
+            const parts = dateString.split("-");
+            const year = parseInt(parts[0], 10);
+            const month = parseInt(parts[1], 10);
+            const day = parseInt(parts[2], 10);
+
+            if (year < 1900 || year > new Date().getFullYear()) return false;
+            if (month < 1 || month > 12) return false;
+            if (day < 1 || day > 31) return false;
+
+            return true;
+        }
+
+        function isValidContactNumber(contactNumber) {
+            return /^\d{11}$/.test(contactNumber);
+        }
+
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        function showErrorMessage(message) {
+            errorMessage.innerHTML += `<p>${message}</p>`;
+        }
+    </script>
+</body>
+</html>
